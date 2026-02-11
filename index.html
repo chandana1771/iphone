@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% block title %}iRevolution — iPhone Analytics India{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">📱 iPhone Impact Analytics · India</div>
+    <h1>The <span class="g">iPhone</span><br>Revolution in India</h1>
+    <p class="hero-sub">Explore 17 years of Apple's iPhone journey across revenue growth, market penetration, regional sales, and user demographics — all powered by real data.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="/dashboard">📊 Explore Dashboard</a>
+      <a class="btn btn-ghost" href="/story">Read the Story →</a>
+    </div>
+  </div>
+</section>
+
+<!-- KPI STRIP -->
+<div class="kpi-grid fade">
+  <div class="kpi-card k1" data-tip="Total Apple revenue from 2019–2022">
+    <div class="kpi-icon">💰</div>
+    <div class="kpi-val" id="kpi-rev">—</div>
+    <div class="kpi-label">Total Revenue (2019–22)</div>
+    <span class="kpi-badge badge-up">▲ All-time high 2022</span>
+  </div>
+  <div class="kpi-card k2" data-tip="Peak annual revenue in a single year">
+    <div class="kpi-icon">🏆</div>
+    <div class="kpi-val" id="kpi-peak">—</div>
+    <div class="kpi-label">Peak Annual Revenue</div>
+    <span class="kpi-badge badge-up">▲ 2022 record</span>
+  </div>
+  <div class="kpi-card k3" data-tip="iPhones sold globally 2019–2022">
+    <div class="kpi-icon">📦</div>
+    <div class="kpi-val" id="kpi-units">—</div>
+    <div class="kpi-label">Units Sold (2019–22)</div>
+    <span class="kpi-badge badge-info">Global shipments</span>
+  </div>
+  <div class="kpi-card k4" data-tip="Active iPhone users worldwide in 2022">
+    <div class="kpi-icon">👥</div>
+    <div class="kpi-val" id="kpi-users">—</div>
+    <div class="kpi-label">Active Users (2022)</div>
+    <span class="kpi-badge badge-up">▲ +92M from 2021</span>
+  </div>
+</div>
+
+<!-- ROW 1: Revenue Growth + Units vs Users -->
+<div class="section fade">
+  <div class="section-head">
+    <div>
+      <div class="section-title">Revenue & Growth Overview</div>
+      <div class="section-sub">Apple's annual revenue trajectory 2006–2022</div>
+    </div>
+  </div>
+  <div class="grid-3-1">
+    <div class="chart-card">
+      <div class="chart-label">📈 Annual Revenue Growth</div>
+      <div class="chart-sub">Revenue in billions USD · 17 year view</div>
+      <div style="height:240px"><canvas id="revenueChart"></canvas></div>
+      <div class="insight-row">
+        <div class="insight-chip"><span class="ic-num" style="color:#4f8eff">$394B</span> Peak (2022)</div>
+        <div class="insight-chip"><span class="ic-num" style="color:#10b981">20.6×</span> Growth since 2006</div>
+        <div class="insight-chip"><span class="ic-num" style="color:#f59e0b">2016</span> Only dip year</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-label">🥧 Revenue Split by Region (2022)</div>
+      <div class="chart-sub">Americas leads at 43%</div>
+      <div style="height:180px;display:flex;align-items:center;justify-content:center"><canvas id="regionDonut"></canvas></div>
+      <div id="regionLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 2: Penetration + Model Share + Country Table -->
+<div class="section fade" style="padding-bottom:60px">
+  <div class="grid-3">
+
+    <div class="chart-card">
+      <div class="chart-label">📱 Units Sold vs Active Users</div>
+      <div class="chart-sub">Global iPhone shipments vs installed base (million)</div>
+      <div style="height:220px"><canvas id="unitsUsersChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-label">🏅 iPhone Model Share (2022–23)</div>
+      <div class="chart-sub">Percentage of global sales by model</div>
+      <div style="height:180px;display:flex;align-items:center;justify-content:center"><canvas id="modelDonut"></canvas></div>
+      <div id="modelLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-label">🌍 Top Models by Country</div>
+      <div class="chart-sub">Best-selling iPhone model per market</div>
+      <div id="countryTable" style="margin-top:4px;display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function loadHome() {
+
+  // ── KPI STATS ──────────────────────────────────
+  const stats = await api('/api/stats');
+  document.getElementById('kpi-rev').textContent   = '$' + stats.total_revenue + 'B';
+  document.getElementById('kpi-peak').textContent  = '$' + stats.peak_revenue + 'B';
+  document.getElementById('kpi-units').textContent = stats.total_units + 'M';
+  document.getElementById('kpi-users').textContent = stats.active_users + 'M';
+
+  // ── REVENUE LINE CHART ─────────────────────────
+  const rev = await api('/api/revenue');
+  const revCtx = document.getElementById('revenueChart').getContext('2d');
+  new Chart(revCtx, {
+    type:'line',
+    data:{
+      labels: rev.map(d=>d.year),
+      datasets:[{
+        label:'Revenue ($bn)',
+        data: rev.map(d=>d.revenue),
+        borderColor: COLORS.blue,
+        backgroundColor: areaGrad(revCtx, COLORS.blue),
+        borderWidth:2.5, pointRadius:3, pointBackgroundColor:COLORS.blue,
+        tension:0.4, fill:true
+      }]
+    },
+    options:{
+      ...lineOpts('$bn'),
+      plugins:{
+        ...defOpts.plugins,
+        tooltip:{ ...defOpts.plugins.tooltip,
+          callbacks:{ label: c => ' $'+c.raw.toFixed(1)+'B' }
+        }
+      }
+    }
+  });
+
+  // ── REGION DONUT ───────────────────────────────
+  const rr = await api('/api/region-revenue');
+  const latest = rr[rr.length-1];
+  const rKeys = ['Americas','Europe','China','Japan','Asia_Pacific'];
+  const rLabels = ['Americas','Europe','China','Japan','Asia Pacific'];
+  const rColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green];
+  const rVals = rKeys.map(k=>latest[k]);
+  const rTotal = rVals.reduce((a,b)=>a+b,0);
+
+  const rdCtx = document.getElementById('regionDonut').getContext('2d');
+  new Chart(rdCtx, {
+    type:'doughnut',
+    data:{
+      labels:rLabels,
+      datasets:[{ data:rVals, backgroundColor:rColors, borderWidth:0, hoverOffset:6 }]
+    },
+    options:donutOpts()
+  });
+
+  const rl = document.getElementById('regionLegend');
+  rLabels.forEach((l,i)=>{
+    const pct = ((rVals[i]/rTotal)*100).toFixed(1);
+    rl.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${rColors[i]}"></div>
+      <span class="legend-label">${l}</span>
+      <div class="legend-bar-bg" style="max-width:60px"><div class="legend-bar-fill" style="width:${pct}%;background:${rColors[i]}"></div></div>
+      <span class="legend-val" style="color:${rColors[i]}">$${rVals[i]}B</span>
+    </div>`;
+  });
+
+  // ── UNITS vs USERS CHART ───────────────────────
+  const pen = await api('/api/penetration');
+  const puCtx = document.getElementById('unitsUsersChart').getContext('2d');
+  new Chart(puCtx, {
+    type:'bar',
+    data:{
+      labels: pen.map(d=>d.year),
+      datasets:[
+        { label:'Units Sold (mm)', data:pen.map(d=>d.units),
+          backgroundColor:COLORS.blue+'88', borderRadius:4, borderSkipped:false },
+        { label:'Active Users (mm)', data:pen.map(d=>d.active_users),
+          type:'line', borderColor:COLORS.cyan, backgroundColor:'transparent',
+          borderWidth:2, pointRadius:2, tension:0.4 }
+      ]
+    },
+    options:{
+      ...lineOpts('Million'),
+      plugins:{
+        ...defOpts.plugins,
+        legend:{ display:true,
+          labels:{ color:'#7878a0', boxWidth:12, font:{size:11} }
+        }
+      }
+    }
+  });
+
+  // ── MODEL SHARE DONUT ─────────────────────────
+  const ms = await api('/api/model-share');
+  const mColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green];
+  const mdCtx = document.getElementById('modelDonut').getContext('2d');
+  new Chart(mdCtx, {
+    type:'doughnut',
+    data:{
+      labels: ms.map(d=>d.model),
+      datasets:[{ data:ms.map(d=>d.share), backgroundColor:mColors, borderWidth:0, hoverOffset:6 }]
+    },
+    options:donutOpts()
+  });
+
+  const ml = document.getElementById('modelLegend');
+  ms.forEach((m,i)=>{
+    ml.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${mColors[i]}"></div>
+      <span class="legend-label">${m.model}</span>
+      <span class="legend-val" style="color:${mColors[i]}">${m.share}%</span>
+    </div>`;
+  });
+
+  // ── COUNTRY TABLE ─────────────────────────────
+  const cs = await api('/api/country-share');
+  const countries = [...new Set(cs.map(d=>d.country))];
+  const ctEl = document.getElementById('countryTable');
+  countries.forEach((c,i) => {
+    const top = cs.find(d=>d.country===c);
+    const clr = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green][i%5];
+    ctEl.innerHTML += `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--surface2);border-radius:10px;">
+      <span style="font-size:18px">${{USA:'🇺🇸',China:'🇨🇳',India:'🇮🇳',Germany:'🇩🇪'}[c]||'🌏'}</span>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600">${c}</div>
+        <div style="font-size:11px;color:var(--muted)">${top.model}</div>
+      </div>
+      <span style="font-size:12px;font-weight:700;color:${clr}">${top.share}%</span>
+    </div>`;
+  });
+}
+
+loadHome();
+</script>
+{% endblock %}
