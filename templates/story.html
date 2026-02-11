@@ -1,0 +1,493 @@
+{% extends "base.html" %}
+{% block title %}Story — iRevolution{% endblock %}
+
+{% block content %}
+<div style="padding:80px 40px 20px;max-width:1260px;margin:0 auto;">
+  <div class="fade">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet);margin-bottom:10px">📖 The Narrative</div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:8px">The iPhone Story</h1>
+    <p style="color:var(--muted);font-size:15px;max-width:600px">A data-driven narrative of Apple's iPhone revolution — from its first billion to 1.3 trillion dollars in revenue.</p>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:60px">
+
+  <!-- Scene Navigation -->
+  <div class="scene-nav fade">
+    <button class="scene-btn active" data-scene="0">🌅 The Beginning</button>
+    <button class="scene-btn" data-scene="1">🚀 Explosive Growth</button>
+    <button class="scene-btn" data-scene="2">🌍 Global Expansion</button>
+    <button class="scene-btn" data-scene="3">🇮🇳 India Chapter</button>
+    <button class="scene-btn" data-scene="4">👥 Who's Buying</button>
+    <button class="scene-btn" data-scene="5">🔮 The Future</button>
+  </div>
+
+  <!-- ── SCENE 0: The Beginning ─────────────────── -->
+  <div class="scene active fade" id="scene-0">
+    <div class="scene-header">
+      <div class="scene-num">Scene 01 / 06</div>
+      <div class="scene-title">A Revolution Begins</div>
+      <p class="scene-desc">In 2007, Steve Jobs unveiled a device that would change everything. What started as a $19.1B company in 2006 became one of the most valuable on earth. Here's how the numbers tell that story.</p>
+    </div>
+    <div class="grid-3-1">
+      <div class="chart-card fade">
+        <div class="chart-label">Revenue: The First 17 Years ($bn)</div>
+        <div class="chart-sub">From $19B in 2006 to $394B in 2022 — a 20× growth</div>
+        <div style="height:280px"><canvas id="s0-revenueArea"></canvas></div>
+        <div class="insight-row" style="margin-top:16px">
+          <div class="insight-chip"><span class="ic-num" style="color:var(--blue)">$19.1B</span> 2006 start</div>
+          <div class="insight-chip"><span class="ic-num" style="color:var(--violet)">$394.3B</span> 2022 peak</div>
+          <div class="insight-chip"><span class="ic-num" style="color:var(--green)">20.6×</span> total growth</div>
+        </div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Milestone Revenues</div>
+        <div class="chart-sub">Key years in Apple's growth</div>
+        <div class="timeline" id="s0-timeline" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 1: Explosive Growth ─────────────── -->
+  <div class="scene fade" id="scene-1">
+    <div class="scene-header">
+      <div class="scene-num">Scene 02 / 06</div>
+      <div class="scene-title">Explosive Growth</div>
+      <p class="scene-desc">Between 2010 and 2015, iPhone units sold tripled as Apple cracked mass-market pricing with older models. Active users crossed 500M for the first time in 2015.</p>
+    </div>
+    <div class="grid-2">
+      <div class="chart-card fade">
+        <div class="chart-label">Units Sold Per Year (million)</div>
+        <div class="chart-sub">Global iPhone shipments 2008–2022</div>
+        <div style="height:240px"><canvas id="s1-units"></canvas></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Active User Base Explosion</div>
+        <div class="chart-sub">How the install base grew decade over decade</div>
+        <div style="height:240px"><canvas id="s1-users"></canvas></div>
+      </div>
+    </div>
+    <div class="metric-row fade" style="margin-top:20px">
+      <div class="metric-box"><div class="metric-num" style="color:var(--blue)">11.6M</div><div class="metric-lbl">Units Sold (2008)</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--violet)">231.2M</div><div class="metric-lbl">Units Sold (2015)</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--pink)">242M</div><div class="metric-lbl">Units Sold (2021)</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--green)">1,334M</div><div class="metric-lbl">Active Users (2022)</div></div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 2: Global Expansion ─────────────── -->
+  <div class="scene fade" id="scene-2">
+    <div class="scene-header">
+      <div class="scene-num">Scene 03 / 06</div>
+      <div class="scene-title">A Truly Global Empire</div>
+      <p class="scene-desc">Apple's revenue engine spans five continents. Americas remains the strongest market, but China surpassed $74B in 2022 — making Asia critical to Apple's future.</p>
+    </div>
+    <div class="chart-card fade">
+      <div class="chart-label">Revenue by Region Over Time ($bn)</div>
+      <div class="chart-sub">See how each region's contribution grew from 2015 to 2022</div>
+      <div style="height:300px"><canvas id="s2-regionStack"></canvas></div>
+    </div>
+    <div class="grid-3" style="margin-top:20px">
+      <div class="chart-card fade">
+        <div class="chart-label">2022 Revenue Leaders</div>
+        <div class="chart-sub">Top regions by revenue</div>
+        <div style="height:200px"><canvas id="s2-regionBar22"></canvas></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Fastest Growing Region</div>
+        <div class="chart-sub">2015→2022 growth rate per region</div>
+        <div class="prog-list" id="s2-growthProg" style="margin-top:12px"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Country-Level Insight</div>
+        <div class="chart-sub">iPhone model dominance per market</div>
+        <div style="height:200px"><canvas id="s2-countryShare"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 3: India Chapter ─────────────────── -->
+  <div class="scene fade" id="scene-3">
+    <div class="scene-header">
+      <div class="scene-num">Scene 04 / 06</div>
+      <div class="scene-title">The India Chapter</div>
+      <p class="scene-desc">India represents one of Apple's biggest growth opportunities. The West region (Maharashtra) leads sales, while South India shows the highest market share. The iPhone 13 and 14 dominate the landscape.</p>
+    </div>
+    <div class="grid-2">
+      <div class="chart-card fade">
+        <div class="chart-label">Sales by Indian Region</div>
+        <div class="chart-sub">Units sold across North, South, West, East</div>
+        <div style="height:220px"><canvas id="s3-indiaRegion"></canvas></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Quarterly Market Share Trends</div>
+        <div class="chart-sub">iPhone vs Samsung vs others in India (2022)</div>
+        <div style="height:220px"><canvas id="s3-qShare"></canvas></div>
+      </div>
+    </div>
+    <div class="chart-card fade" style="margin-top:20px">
+      <div class="chart-label">Top Models Sold in India</div>
+      <div class="chart-sub">iPhone model performance across all years</div>
+      <div style="height:200px"><canvas id="s3-modelIndia"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 4: Who's Buying ──────────────────── -->
+  <div class="scene fade" id="scene-4">
+    <div class="scene-header">
+      <div class="scene-num">Scene 05 / 06</div>
+      <div class="scene-title">Who's Buying iPhones?</div>
+      <p class="scene-desc">The 25–34 age group is Apple's largest segment in India. Social media tells a story of overwhelming positivity — camera quality and design top the conversation.</p>
+    </div>
+    <div class="grid-3">
+      <div class="chart-card fade">
+        <div class="chart-label">Age Distribution</div>
+        <div class="chart-sub">Users by age group in India</div>
+        <div style="height:200px;display:flex;align-items:center;justify-content:center"><canvas id="s4-ageDonut"></canvas></div>
+        <div id="s4-ageLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Sentiment Overview</div>
+        <div class="chart-sub">What India says about iPhone</div>
+        <div style="height:200px;display:flex;align-items:center;justify-content:center"><canvas id="s4-sentDonut"></canvas></div>
+        <div id="s4-sentLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">What They Talk About</div>
+        <div class="chart-sub">Top iPhone conversation topics</div>
+        <div style="height:220px"><canvas id="s4-topicsBar"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SCENE 5: The Future ────────────────────── -->
+  <div class="scene fade" id="scene-5">
+    <div class="scene-header">
+      <div class="scene-num">Scene 06 / 06</div>
+      <div class="scene-title">Where Do We Go From Here?</div>
+      <p class="scene-desc">With 1.3 billion active users globally and India's penetration still in early innings, Apple's next decade looks even larger than its last. Manufacturing in India, premium model growth, and ecosystem lock-in are the three levers.</p>
+    </div>
+    <div class="grid-2">
+      <div class="chart-card fade" style="border-top:3px solid var(--blue)">
+        <div style="font-size:40px;margin-bottom:16px">🏭</div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px;color:var(--blue)">Made in India Push</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">Apple is aggressively shifting iPhone manufacturing to India (Foxconn, Pegatron). This lowers costs, avoids tariffs, and opens the doors to a $1B+ India supply chain opportunity.</p>
+        <div class="metric-row" style="margin-top:20px">
+          <div class="metric-box"><div class="metric-num" style="color:var(--blue)">68%</div><div class="metric-lbl">MiI target by 2025</div></div>
+          <div class="metric-box"><div class="metric-num" style="color:var(--green)">$15B</div><div class="metric-lbl">Production value</div></div>
+        </div>
+      </div>
+      <div class="chart-card fade" style="border-top:3px solid var(--violet)">
+        <div style="font-size:40px;margin-bottom:16px">📈</div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px;color:var(--violet)">India Market Potential</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.7">India's smartphone market has 700M+ users. iPhone currently holds ~7% share — but that number is rising fast as incomes grow and Apple opens retail stores across Tier-1 and Tier-2 cities.</p>
+        <div class="metric-row" style="margin-top:20px">
+          <div class="metric-box"><div class="metric-num" style="color:var(--violet)">7.2%</div><div class="metric-lbl">Current share</div></div>
+          <div class="metric-box"><div class="metric-num" style="color:var(--pink)">700M+</div><div class="metric-lbl">Addressable users</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card fade" style="margin-top:20px">
+      <div class="chart-label">Revenue Projection Comparison (Extrapolated)</div>
+      <div class="chart-sub">Historical data extended with trend projection through 2026 (illustrative)</div>
+      <div style="height:240px"><canvas id="s5-projection"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Navigation arrows -->
+  <div style="display:flex;gap:12px;justify-content:center;margin-top:32px;padding-bottom:40px">
+    <button class="btn btn-ghost" id="prevScene" onclick="changeScene(-1)">← Previous</button>
+    <span id="sceneCounter" style="display:flex;align-items:center;font-size:13px;color:var(--muted)">1 / 6</span>
+    <button class="btn btn-primary" id="nextScene" onclick="changeScene(1)">Next →</button>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentScene = 0;
+const totalScenes = 6;
+let chartsLoaded = {};
+
+function changeScene(dir) {
+  const old = currentScene;
+  currentScene = Math.max(0, Math.min(totalScenes-1, currentScene + dir));
+  if (old === currentScene) return;
+
+  document.getElementById('scene-'+old).classList.remove('active');
+  document.getElementById('scene-'+currentScene).classList.add('active');
+  document.querySelectorAll('.scene-btn').forEach((b,i) => b.classList.toggle('active', i===currentScene));
+  document.getElementById('sceneCounter').textContent = (currentScene+1)+' / '+totalScenes;
+  document.getElementById('prevScene').disabled = currentScene===0;
+  document.getElementById('nextScene').disabled = currentScene===totalScenes-1;
+
+  if (!chartsLoaded[currentScene]) { loadScene(currentScene); chartsLoaded[currentScene]=true; }
+}
+
+document.querySelectorAll('.scene-btn').forEach((btn,i) => {
+  btn.addEventListener('click', () => {
+    const dir = i - currentScene;
+    currentScene = i;
+    document.querySelectorAll('.scene').forEach((s,j) => s.classList.toggle('active',j===i));
+    document.querySelectorAll('.scene-btn').forEach((b,j) => b.classList.toggle('active',j===i));
+    document.getElementById('sceneCounter').textContent = (i+1)+' / '+totalScenes;
+    if (!chartsLoaded[i]) { loadScene(i); chartsLoaded[i]=true; }
+  });
+});
+
+async function loadScene(n) {
+  if (n===0) await loadScene0();
+  if (n===1) await loadScene1();
+  if (n===2) await loadScene2();
+  if (n===3) await loadScene3();
+  if (n===4) await loadScene4();
+  if (n===5) await loadScene5();
+}
+
+async function loadScene0() {
+  const rev = await api('/api/revenue');
+  const c = document.getElementById('s0-revenueArea').getContext('2d');
+  new Chart(c, {
+    type:'line',
+    data:{ labels:rev.map(d=>d.year),
+      datasets:[{ data:rev.map(d=>d.revenue), borderColor:COLORS.blue,
+        backgroundColor:areaGrad(c,COLORS.blue),
+        borderWidth:2.5, tension:0.4, fill:true, pointRadius:3, pointBackgroundColor:COLORS.blue }] },
+    options:{ ...lineOpts('$bn'), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' $'+c.raw.toFixed(1)+'B'}}} }
+  });
+
+  const milestones = [{y:2007,r:24.4,t:'iPhone launch'},{y:2010,r:65.0,t:'iPhone 4'},{y:2012,r:156.3,t:'iPhone 5'},{y:2015,r:233.6,t:'iPhone 6S — peak units'},{y:2017,r:229.2,t:'iPhone X — $999+'},{y:2021,r:365.8,t:'5G supercycle'},{y:2022,r:394.3,t:'All-time high 🏆'}];
+  const tl = document.getElementById('s0-timeline');
+  milestones.forEach(m => {
+    tl.innerHTML += `<div class="timeline-item">
+      <div class="timeline-year">${m.y}</div>
+      <div class="timeline-rev">$${m.r}B</div>
+      <div class="timeline-text">${m.t}</div>
+    </div>`;
+  });
+}
+
+async function loadScene1() {
+  const pen = await api('/api/penetration');
+  const uc = document.getElementById('s1-units').getContext('2d');
+  new Chart(uc, {
+    type:'bar',
+    data:{ labels:pen.map(d=>d.year),
+      datasets:[{ data:pen.map(d=>d.units), backgroundColor:COLORS.violet+'aa', borderRadius:6, borderSkipped:false }] },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+c.raw+'M units'}}} }
+  });
+  const ac = document.getElementById('s1-users').getContext('2d');
+  new Chart(ac, {
+    type:'line',
+    data:{ labels:pen.map(d=>d.year),
+      datasets:[{ data:pen.map(d=>d.active_users), borderColor:COLORS.green,
+        backgroundColor:areaGrad(ac,COLORS.green),
+        borderWidth:2.5, tension:0.4, fill:true, pointRadius:3, pointBackgroundColor:COLORS.green }] },
+    options:{ ...lineOpts('Million'), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+c.raw+'M users'}}} }
+  });
+}
+
+async function loadScene2() {
+  const rr = await api('/api/region-revenue');
+  const regions = ['Americas','Europe','China','Japan','Asia_Pacific'];
+  const rLabels = ['Americas','Europe','China','Japan','Asia Pacific'];
+  const rColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green];
+
+  const sc = document.getElementById('s2-regionStack').getContext('2d');
+  new Chart(sc, {
+    type:'line',
+    data:{ labels:rr.map(d=>d.year),
+      datasets:regions.map((r,i)=>({
+        label:rLabels[i], data:rr.map(d=>d[r]),
+        borderColor:rColors[i], backgroundColor:rColors[i]+'55',
+        fill:true, borderWidth:2, tension:0.4, pointRadius:2
+      }))
+    },
+    options:{ ...lineOpts('$bn'), plugins:{...defOpts.plugins, legend:{display:true,labels:{color:'#7878a0',boxWidth:10,font:{size:11}}}} }
+  });
+
+  const latest = rr[rr.length-1];
+  const vals = regions.map(k=>latest[k]);
+  const rb22 = document.getElementById('s2-regionBar22').getContext('2d');
+  new Chart(rb22, {
+    type:'bar',
+    data:{ labels:rLabels,
+      datasets:[{ data:vals, backgroundColor:rColors.map(c=>c+'cc'), borderRadius:6, borderSkipped:false }] },
+    options:{ ...barOpts(true), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' $'+c.raw+'B'}}} }
+  });
+
+  const first = rr[0];
+  const gEl = document.getElementById('s2-growthProg');
+  const growths = regions.map((r,i) => ({
+    label:rLabels[i], color:rColors[i],
+    growth:((latest[r]-first[r])/first[r]*100).toFixed(0)
+  })).sort((a,b)=>b.growth-a.growth);
+  const maxG = Math.max(...growths.map(g=>parseFloat(g.growth)));
+  growths.forEach(g => {
+    gEl.innerHTML += `<div class="prog-item">
+      <span class="prog-label">${g.label}</span>
+      <div class="prog-bg"><div class="prog-fill" style="width:${(g.growth/maxG*100).toFixed(0)}%;background:${g.color}"></div></div>
+      <span class="prog-val" style="color:${g.color}">${g.growth}%</span>
+    </div>`;
+  });
+
+  const cs = await api('/api/country-share');
+  const countries = [...new Set(cs.map(d=>d.country))];
+  const topPerCountry = countries.map(c => {
+    const models = cs.filter(d=>d.country===c);
+    return { country:c, top:models[0].model.replace('iPhone ',''), share:models[0].share };
+  });
+  const ccCtx = document.getElementById('s2-countryShare').getContext('2d');
+  new Chart(ccCtx, {
+    type:'bar',
+    data:{ labels:topPerCountry.map(d=>d.country),
+      datasets:[{ data:topPerCountry.map(d=>d.share),
+        backgroundColor:[COLORS.blue,COLORS.pink,COLORS.green,COLORS.amber].map(c=>c+'cc'),
+        borderRadius:6, borderSkipped:false }] },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+c.raw+'% ('+topPerCountry[c.dataIndex].top+')'}}} }
+  });
+}
+
+async function loadScene3() {
+  const [sales, summary, qData] = await Promise.all([
+    api('/api/sales'), api('/api/sales-summary'), api('/api/quarterly')
+  ]);
+  const rColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.green];
+  const ir = document.getElementById('s3-indiaRegion').getContext('2d');
+  new Chart(ir, {
+    type:'bar',
+    data:{ labels:summary.map(s=>s.region),
+      datasets:[
+        { label:'Units (K)', data:summary.map(s=>Math.round(s.units/1000)), backgroundColor:rColors.map(c=>c+'cc'), borderRadius:6, borderSkipped:false },
+      ]
+    },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+c.raw+'K units'}}} }
+  });
+
+  const q2022 = qData.filter(d=>d.year===2022);
+  const brands = [...new Set(q2022.map(d=>d.brand))];
+  const bColors = {Samsung:COLORS.blue,vivo:COLORS.violet,Xiaomi:COLORS.pink,OPPO:COLORS.cyan,realme:COLORS.green,Others:COLORS.muted};
+  const qc = document.getElementById('s3-qShare').getContext('2d');
+  new Chart(qc, {
+    type:'bar',
+    data:{
+      labels:['Q1','Q2','Q3','Q4'],
+      datasets:brands.map(b=>({
+        label:b, data:q2022.filter(d=>d.brand===b).map(d=>[d.Q1,d.Q2,d.Q3,d.Q4]).flat(),
+        backgroundColor:(bColors[b]||COLORS.blue)+'cc', borderRadius:4, borderSkipped:false
+      }))
+    },
+    options:{ ...barOpts(),
+      scales:{ x:{stacked:true,grid:{display:false},ticks:{color:COLORS.muted},border:{display:false}},
+               y:{stacked:true,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:COLORS.muted},border:{display:false}} },
+      plugins:{...defOpts.plugins, legend:{display:true,labels:{color:'#7878a0',boxWidth:10,font:{size:11}}}}
+    }
+  });
+
+  const modelMap = {};
+  sales.forEach(r=>{ modelMap[r.Model]=(modelMap[r.Model]||0)+r.Units_Sold; });
+  const models = Object.keys(modelMap).sort((a,b)=>modelMap[b]-modelMap[a]);
+  const mc = document.getElementById('s3-modelIndia').getContext('2d');
+  new Chart(mc, {
+    type:'bar',
+    data:{ labels:models,
+      datasets:[{ data:models.map(m=>modelMap[m]),
+        backgroundColor:[COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green].map(c=>c+'cc'),
+        borderRadius:6, borderSkipped:false }] },
+    options:{ ...barOpts(true), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+fmtNum(c.raw)+' units'}}} }
+  });
+}
+
+async function loadScene4() {
+  const [ages, sent, topics] = await Promise.all([
+    api('/api/demographics'), api('/api/sentiment'), api('/api/sentiment-topics')
+  ]);
+  const ageColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan];
+  const adCtx = document.getElementById('s4-ageDonut').getContext('2d');
+  ages.sort((a,b)=>a.age.localeCompare(b.age));
+  new Chart(adCtx, {
+    type:'doughnut',
+    data:{ labels:ages.map(a=>a.age),
+      datasets:[{ data:ages.map(a=>a.users), backgroundColor:ageColors, borderWidth:0, hoverOffset:6 }] },
+    options:donutOpts()
+  });
+  const al = document.getElementById('s4-ageLegend');
+  const ageTotal = ages.reduce((s,r)=>s+r.users,0);
+  ages.forEach((a,i) => {
+    al.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${ageColors[i]}"></div>
+      <span class="legend-label">${a.age}</span>
+      <span class="legend-val" style="color:${ageColors[i]}">${((a.users/ageTotal)*100).toFixed(0)}%</span>
+    </div>`;
+  });
+
+  const sColors = {Positive:COLORS.green,Neutral:COLORS.amber,Negative:COLORS.red};
+  const sdCtx = document.getElementById('s4-sentDonut').getContext('2d');
+  new Chart(sdCtx, {
+    type:'doughnut',
+    data:{ labels:sent.map(s=>s.sentiment),
+      datasets:[{ data:sent.map(s=>s.mentions), backgroundColor:sent.map(s=>sColors[s.sentiment]), borderWidth:0, hoverOffset:6 }] },
+    options:donutOpts()
+  });
+  const sl = document.getElementById('s4-sentLegend');
+  const sentTotal = sent.reduce((s,r)=>s+r.mentions,0);
+  sent.forEach(s => {
+    sl.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${sColors[s.sentiment]}"></div>
+      <span class="legend-label">${s.sentiment}</span>
+      <span class="legend-val" style="color:${sColors[s.sentiment]}">${((s.mentions/sentTotal)*100).toFixed(0)}%</span>
+    </div>`;
+  });
+
+  const tColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green,COLORS.amber,COLORS.red,COLORS.blue];
+  const tc = document.getElementById('s4-topicsBar').getContext('2d');
+  new Chart(tc, {
+    type:'bar',
+    data:{ labels:topics.map(t=>t.topic),
+      datasets:[{ data:topics.map(t=>t.mentions),
+        backgroundColor:tColors.map(c=>c+'cc'), borderRadius:6, borderSkipped:false }] },
+    options:{ ...barOpts(true), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+fmtNum(c.raw)+' mentions'}}} }
+  });
+}
+
+async function loadScene5() {
+  const rev = await api('/api/revenue');
+  const years = rev.map(d=>d.year);
+  const vals  = rev.map(d=>d.revenue);
+  // Simple linear extrapolation
+  const n = vals.length;
+  const lastGrowth = (vals[n-1]-vals[n-3])/(vals[n-3]);
+  const proj = [vals[n-1], vals[n-1]*1.06, vals[n-1]*1.12, vals[n-1]*1.19, vals[n-1]*1.26];
+  const allYears = [...years, 2023, 2024, 2025, 2026];
+  const ctx = document.getElementById('s5-projection').getContext('2d');
+  new Chart(ctx, {
+    type:'line',
+    data:{
+      labels:allYears,
+      datasets:[
+        { label:'Historical', data:[...vals, null, null, null, null],
+          borderColor:COLORS.blue, backgroundColor:areaGrad(ctx,COLORS.blue),
+          fill:true, borderWidth:2.5, tension:0.4, pointRadius:2 },
+        { label:'Projected', data:[...vals.map(()=>null), ...proj],
+          borderColor:COLORS.violet, backgroundColor:COLORS.violet+'22',
+          fill:true, borderWidth:2.5, tension:0.4, borderDash:[6,3], pointRadius:3,
+          pointBackgroundColor:COLORS.violet }
+      ]
+    },
+    options:{
+      ...lineOpts('$bn'),
+      plugins:{
+        ...defOpts.plugins,
+        legend:{display:true,labels:{color:'#7878a0',boxWidth:10,font:{size:11}}},
+        tooltip:{...defOpts.plugins.tooltip,callbacks:{label:c=>' $'+parseFloat(c.raw).toFixed(1)+'B'}}
+      }
+    }
+  });
+}
+
+// Load scene 0 on init
+loadScene(0);
+chartsLoaded[0] = true;
+</script>
+{% endblock %}

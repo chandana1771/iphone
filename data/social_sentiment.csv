@@ -1,0 +1,64 @@
+Date,Platform,Sentiment,Mentions,Engagement_Rate,Topic
+2024-01-01,Twitter,Positive,15800,4.5,Camera Quality
+2024-01-01,Instagram,Positive,28500,6.2,New Launch
+2024-01-01,Facebook,Neutral,8500,2.8,Price Discussion
+2024-01-02,Twitter,Positive,16200,4.7,Ecosystem
+2024-01-02,Instagram,Positive,29800,6.5,Photography
+2024-01-02,Facebook,Positive,9200,3.1,Features
+2024-01-05,Twitter,Negative,4500,3.2,Price
+2024-01-05,Instagram,Positive,32000,6.8,Design
+2024-01-05,Facebook,Neutral,7800,2.5,Comparison
+2024-01-08,Twitter,Positive,18500,5.1,Performance
+2024-01-08,Instagram,Positive,35000,7.2,Video Quality
+2024-01-08,Facebook,Positive,10500,3.5,User Experience
+2024-01-12,Twitter,Positive,19200,5.3,iOS Updates
+2024-01-12,Instagram,Positive,38000,7.8,Content Creation
+2024-01-12,Facebook,Neutral,9500,3.0,Battery Life
+2024-01-15,Twitter,Positive,17800,4.9,Privacy Features
+2024-01-15,Instagram,Positive,36500,7.5,ProRAW
+2024-01-15,Facebook,Positive,11200,3.6,Durability
+2024-01-20,Twitter,Negative,5200,3.5,Pricing
+2024-01-20,Instagram,Positive,39500,8.0,Influencer Review
+2024-01-20,Facebook,Neutral,8800,2.9,Availability
+2024-01-25,Twitter,Positive,20500,5.6,5G Performance
+2024-01-25,Instagram,Positive,42000,8.5,Portrait Mode
+2024-01-25,Facebook,Positive,12500,4.0,Trade-in Offers
+2024-02-01,Twitter,Positive,21800,5.9,App Store
+2024-02-01,Instagram,Positive,45000,9.0,Night Mode
+2024-02-01,Facebook,Positive,13200,4.2,Customer Service
+2024-02-05,Twitter,Positive,19500,5.4,FaceID
+2024-02-05,Instagram,Positive,41500,8.7,Cinematic Mode
+2024-02-05,Facebook,Neutral,10800,3.4,Comparison Android
+2024-02-10,Twitter,Negative,6800,3.8,Repair Costs
+2024-02-10,Instagram,Positive,44000,8.9,Gaming Performance
+2024-02-10,Facebook,Positive,14000,4.5,Resale Value
+2024-02-14,Twitter,Positive,23500,6.2,Valentine Special
+2024-02-14,Instagram,Positive,52000,10.2,Gift Ideas
+2024-02-14,Facebook,Positive,15500,5.0,Promotional Offers
+2024-02-20,Twitter,Positive,20800,5.7,MagSafe
+2024-02-20,Instagram,Positive,46500,9.3,Accessories
+2024-02-20,Facebook,Neutral,11500,3.6,Compatibility
+2024-03-01,Twitter,Positive,22500,6.0,Software Updates
+2024-03-01,Instagram,Positive,48000,9.5,AR Features
+2024-03-01,Facebook,Positive,14800,4.7,Family Sharing
+2024-03-05,Twitter,Negative,7200,4.0,Storage Options
+2024-03-05,Instagram,Positive,49500,9.8,Travel Photography
+2024-03-05,Facebook,Neutral,12200,3.9,Memory Comparison
+2024-03-10,Twitter,Positive,24000,6.3,Apple Pay India
+2024-03-10,Instagram,Positive,51000,10.0,Lifestyle
+2024-03-10,Facebook,Positive,16000,5.1,Business Use
+2024-03-15,Twitter,Positive,21500,5.8,Siri Updates
+2024-03-15,Instagram,Positive,47500,9.4,Fashion Tech
+2024-03-15,Facebook,Positive,13800,4.4,Productivity
+2024-03-20,Twitter,Positive,23800,6.2,Apple Watch Integration
+2024-03-20,Instagram,Positive,53000,10.3,Fitness Features
+2024-03-20,Facebook,Positive,15200,4.8,Health Apps
+2024-03-25,Twitter,Neutral,11500,4.2,Rumors Next Gen
+2024-03-25,Instagram,Positive,50000,9.9,Color Options
+2024-03-25,Facebook,Neutral,13000,4.1,Waiting for New
+2024-04-01,Twitter,Positive,25500,6.5,Student Discount
+2024-04-01,Instagram,Positive,55000,10.5,Education Tech
+2024-04-01,Facebook,Positive,17500,5.5,Learning Apps
+2024-04-05,Twitter,Negative,8500,4.3,Charger Not Included
+2024-04-05,Instagram,Positive,52500,10.2,Sustainability
+2024-04-05,Facebook,Neutral,14500,4.5,Environment Impact

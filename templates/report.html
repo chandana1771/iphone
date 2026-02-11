@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+{% block title %}Report — iRevolution{% endblock %}
+
+{% block content %}
+<div style="padding:80px 40px 20px;max-width:1260px;margin:0 auto;">
+  <div class="fade">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--pink);margin-bottom:10px">📋 Deep Analysis</div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:8px">Analytics Report</h1>
+    <p style="color:var(--muted);font-size:15px;">User demographics, social sentiment, and key market insights from real data.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SECTION 1: USER DEMOGRAPHICS
+══════════════════════════════════ -->
+<div class="section fade">
+  <div class="report-section">
+    <div class="report-section-title">👤 User Demographics</div>
+    <div class="report-section-sub">Understanding who buys iPhones in India — age, income, gender, and region</div>
+
+    <div class="metric-row" style="margin-bottom:24px" id="demoMetrics">
+      <div class="metric-box"><div class="metric-num" style="color:var(--blue)" id="dm-total">—</div><div class="metric-lbl">Total Users</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--pink)" id="dm-topAge">—</div><div class="metric-lbl">Top Age Group</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--cyan)" id="dm-avgVal">—</div><div class="metric-lbl">Avg Purchase Value</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--green)" id="dm-topIncome">—</div><div class="metric-lbl">Top Income Segment</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-card fade">
+        <div class="chart-label">Users by Age Group</div>
+        <div class="chart-sub">Total iPhone users in each age bracket</div>
+        <div style="height:220px"><canvas id="ageBar"></canvas></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Avg Purchase Value by Age (₹)</div>
+        <div class="chart-sub">Average spend per iPhone by age group</div>
+        <div style="height:220px"><canvas id="ageValueLine"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:20px">
+      <div class="chart-card fade">
+        <div class="chart-label">Income Level Distribution</div>
+        <div class="chart-sub">Users by income segment</div>
+        <div style="height:180px;display:flex;align-items:center;justify-content:center"><canvas id="incomeDoughnut"></canvas></div>
+        <div id="incomeLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Gender Distribution</div>
+        <div class="chart-sub">Male vs Female iPhone users</div>
+        <div style="height:180px;display:flex;align-items:center;justify-content:center"><canvas id="genderDonut"></canvas></div>
+        <div id="genderLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Users by Region</div>
+        <div class="chart-sub">North · South · West · East</div>
+        <div style="height:180px"><canvas id="regionDemoBar"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Demographics Progress List -->
+    <div class="grid-2" style="margin-top:20px">
+      <div class="chart-card fade">
+        <div class="chart-label">Purchase Value by Region</div>
+        <div class="chart-sub">Average spend per region (₹)</div>
+        <div class="prog-list" id="regionValueProg" style="margin-top:14px"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Age Group User Share</div>
+        <div class="chart-sub">Percentage of total users per age group</div>
+        <div class="prog-list" id="ageShareProg" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       SECTION 2: SOCIAL SENTIMENT
+  ══════════════════════════════════ -->
+  <div class="report-section">
+    <div class="report-section-title">💬 Social Media Sentiment</div>
+    <div class="report-section-sub">iPhone brand perception across Twitter, Instagram, and Facebook</div>
+
+    <div class="metric-row" style="margin-bottom:24px" id="sentMetrics">
+      <div class="metric-box"><div class="metric-num" style="color:var(--green)" id="sm2-pos">—</div><div class="metric-lbl">Positive Mentions</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--amber)" id="sm2-neu">—</div><div class="metric-lbl">Neutral Mentions</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--red)" id="sm2-neg">—</div><div class="metric-lbl">Negative Mentions</div></div>
+      <div class="metric-box"><div class="metric-num" style="color:var(--cyan)" id="sm2-eng">—</div><div class="metric-lbl">Avg Engagement Rate</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-card fade">
+        <div class="chart-label">Sentiment Distribution</div>
+        <div class="chart-sub">Share of positive / neutral / negative posts</div>
+        <div style="height:240px;display:flex;align-items:center;justify-content:center"><canvas id="sentimentDonut"></canvas></div>
+        <div id="sentimentLegend" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Platform Sentiment Breakdown</div>
+        <div class="chart-sub">Mentions by platform and sentiment type</div>
+        <div style="height:240px"><canvas id="platformSentBar"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:20px">
+      <div class="chart-card fade">
+        <div class="chart-label">Top Topics by Mentions</div>
+        <div class="chart-sub">What people discuss most about iPhone</div>
+        <div style="height:220px"><canvas id="topicsBar"></canvas></div>
+      </div>
+      <div class="chart-card fade">
+        <div class="chart-label">Topic Engagement Rate</div>
+        <div class="chart-sub">Average engagement % per topic</div>
+        <div class="prog-list" id="topicEngProg" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ══════════════════════════════════
+       SECTION 3: KEY INSIGHTS
+  ══════════════════════════════════ -->
+  <div class="report-section">
+    <div class="report-section-title">💡 Key Insights</div>
+    <div class="report-section-sub">Data-backed findings from this analysis</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:4px" id="insightCards"></div>
+  </div>
+</div>
+
+<div style="padding-bottom:60px"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function loadReport() {
+
+  // ── DEMOGRAPHICS ──────────────────────────────
+  const [ages, income, gender, regionDemo] = await Promise.all([
+    api('/api/demographics'),
+    api('/api/demographics-income'),
+    api('/api/demographics-gender'),
+    api('/api/demographics-region')
+  ]);
+
+  const totalUsers = ages.reduce((s,r)=>s+r.users,0);
+  const topAge = ages.sort((a,b)=>b.users-a.users)[0];
+  const avgVal = ages.reduce((s,r)=>s+(r.avg_value*r.users),0) / totalUsers;
+  const topInc = income.sort((a,b)=>b.users-a.users)[0];
+
+  document.getElementById('dm-total').textContent   = fmtNum(totalUsers);
+  document.getElementById('dm-topAge').textContent  = topAge.age;
+  document.getElementById('dm-avgVal').textContent  = '₹'+fmtNum(Math.round(avgVal));
+  document.getElementById('dm-topIncome').textContent = topInc.level;
+
+  ages.sort((a,b)=>a.age.localeCompare(b.age));
+  const ageColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan];
+
+  // Age bar
+  const abCtx = document.getElementById('ageBar').getContext('2d');
+  new Chart(abCtx, {
+    type:'bar',
+    data:{ labels:ages.map(a=>a.age),
+      datasets:[{ label:'Users', data:ages.map(a=>a.users),
+        backgroundColor:ageColors.map(c=>c+'cc'), borderRadius:8, borderSkipped:false }] },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+fmtNum(c.raw)+' users'}}} }
+  });
+
+  // Age value line
+  const avCtx = document.getElementById('ageValueLine').getContext('2d');
+  new Chart(avCtx, {
+    type:'line',
+    data:{ labels:ages.map(a=>a.age),
+      datasets:[{ label:'Avg Purchase (₹)', data:ages.map(a=>a.avg_value),
+        borderColor:COLORS.pink, backgroundColor:areaGrad(avCtx,COLORS.pink),
+        borderWidth:2.5, pointRadius:5, pointBackgroundColor:COLORS.pink, tension:0.4, fill:true }] },
+    options:{ ...lineOpts('₹'), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' ₹'+fmtNum(c.raw)}}} }
+  });
+
+  // Income donut
+  const iColors = [COLORS.amber,COLORS.blue,COLORS.green];
+  const idCtx = document.getElementById('incomeDoughnut').getContext('2d');
+  income.sort((a,b)=>['Low','Medium','High'].indexOf(a.level)-['Low','Medium','High'].indexOf(b.level));
+  new Chart(idCtx, {
+    type:'doughnut',
+    data:{ labels:income.map(i=>i.level),
+      datasets:[{ data:income.map(i=>i.users), backgroundColor:iColors, borderWidth:0, hoverOffset:6 }] },
+    options:donutOpts()
+  });
+  const il = document.getElementById('incomeLegend');
+  const incTotal = income.reduce((s,r)=>s+r.users,0);
+  income.forEach((inc,i)=>{
+    const pct = ((inc.users/incTotal)*100).toFixed(1);
+    il.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${iColors[i]}"></div>
+      <span class="legend-label">${inc.level} Income</span>
+      <div class="legend-bar-bg"><div class="legend-bar-fill" style="width:${pct}%;background:${iColors[i]}"></div></div>
+      <span class="legend-val" style="color:${iColors[i]}">${pct}%</span>
+    </div>`;
+  });
+
+  // Gender donut
+  const gColors = [COLORS.blue, COLORS.pink];
+  const gdCtx = document.getElementById('genderDonut').getContext('2d');
+  new Chart(gdCtx, {
+    type:'doughnut',
+    data:{ labels:gender.map(g=>g.gender),
+      datasets:[{ data:gender.map(g=>g.users), backgroundColor:gColors, borderWidth:0, hoverOffset:6 }] },
+    options:donutOpts()
+  });
+  const gl = document.getElementById('genderLegend');
+  const gTotal = gender.reduce((s,r)=>s+r.users,0);
+  gender.forEach((g,i)=>{
+    const pct = ((g.users/gTotal)*100).toFixed(1);
+    gl.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${gColors[i]}"></div>
+      <span class="legend-label">${g.gender}</span>
+      <span class="legend-val" style="color:${gColors[i]}">${pct}%</span>
+    </div>`;
+  });
+
+  // Region demo bar
+  const rdCtx = document.getElementById('regionDemoBar').getContext('2d');
+  new Chart(rdCtx, {
+    type:'bar',
+    data:{ labels:regionDemo.map(r=>r.region),
+      datasets:[{ label:'Users', data:regionDemo.map(r=>r.users),
+        backgroundColor:[COLORS.blue,COLORS.violet,COLORS.pink,COLORS.green].map(c=>c+'cc'),
+        borderRadius:6, borderSkipped:false }] },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+fmtNum(c.raw)+' users'}}} }
+  });
+
+  // Region purchase value progress bars
+  const rvpEl = document.getElementById('regionValueProg');
+  const maxRv = Math.max(...regionDemo.map(r=>r.avg_value));
+  const rvColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.green];
+  regionDemo.forEach((r,i) => {
+    rvpEl.innerHTML += `<div class="prog-item">
+      <span class="prog-label">${r.region}</span>
+      <div class="prog-bg"><div class="prog-fill" style="width:${(r.avg_value/maxRv*100).toFixed(0)}%;background:${rvColors[i]}"></div></div>
+      <span class="prog-val" style="color:${rvColors[i]}">₹${fmtNum(r.avg_value)}</span>
+    </div>`;
+  });
+
+  // Age share progress bars
+  const aspEl = document.getElementById('ageShareProg');
+  const agesSorted = [...ages].sort((a,b)=>b.users-a.users);
+  agesSorted.forEach((a,i) => {
+    const pct = ((a.users/totalUsers)*100).toFixed(1);
+    aspEl.innerHTML += `<div class="prog-item">
+      <span class="prog-label">${a.age} yrs</span>
+      <div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${ageColors[ages.indexOf(a)]}"></div></div>
+      <span class="prog-val" style="color:${ageColors[ages.indexOf(a)]}">${pct}%</span>
+    </div>`;
+  });
+
+  // ── SENTIMENT ─────────────────────────────────
+  const [sent, sentPlat, sentTopics] = await Promise.all([
+    api('/api/sentiment'),
+    api('/api/sentiment-platform'),
+    api('/api/sentiment-topics')
+  ]);
+
+  const posData = sent.find(s=>s.sentiment==='Positive');
+  const neuData = sent.find(s=>s.sentiment==='Neutral');
+  const negData = sent.find(s=>s.sentiment==='Negative');
+  const avgEng  = (sent.reduce((s,r)=>s+(r.engagement*r.count),0) / sent.reduce((s,r)=>s+r.count,0)).toFixed(2);
+
+  document.getElementById('sm2-pos').textContent = posData ? fmtNum(posData.mentions) : '—';
+  document.getElementById('sm2-neu').textContent = neuData ? fmtNum(neuData.mentions) : '—';
+  document.getElementById('sm2-neg').textContent = negData ? fmtNum(negData.mentions) : '—';
+  document.getElementById('sm2-eng').textContent = avgEng + '%';
+
+  const sColors = {Positive:COLORS.green, Neutral:COLORS.amber, Negative:COLORS.red};
+  const sdCtx = document.getElementById('sentimentDonut').getContext('2d');
+  new Chart(sdCtx, {
+    type:'doughnut',
+    data:{ labels:sent.map(s=>s.sentiment),
+      datasets:[{ data:sent.map(s=>s.mentions),
+        backgroundColor:sent.map(s=>sColors[s.sentiment]), borderWidth:0, hoverOffset:6 }] },
+    options:donutOpts()
+  });
+  const sl = document.getElementById('sentimentLegend');
+  const sentTotal = sent.reduce((s,r)=>s+r.mentions,0);
+  sent.forEach(s => {
+    const pct = ((s.mentions/sentTotal)*100).toFixed(1);
+    sl.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${sColors[s.sentiment]}"></div>
+      <span class="legend-label">${s.sentiment}</span>
+      <div class="legend-bar-bg"><div class="legend-bar-fill" style="width:${pct}%;background:${sColors[s.sentiment]}"></div></div>
+      <span class="legend-val" style="color:${sColors[s.sentiment]}">${pct}%</span>
+    </div>`;
+  });
+
+  // Platform sentiment stacked bar
+  const platforms = ['Twitter','Instagram','Facebook'];
+  const sentTypes = ['Positive','Neutral','Negative'];
+  const platColors = {Positive:COLORS.green, Neutral:COLORS.amber, Negative:COLORS.red};
+  const psCtx = document.getElementById('platformSentBar').getContext('2d');
+  new Chart(psCtx, {
+    type:'bar',
+    data:{
+      labels:platforms,
+      datasets: sentTypes.map(st => ({
+        label:st,
+        data: platforms.map(p => {
+          const found = sentPlat.find(r=>r.platform===p && r.sentiment===st);
+          return found ? found.mentions : 0;
+        }),
+        backgroundColor: platColors[st]+'cc', borderRadius:4, borderSkipped:false
+      }))
+    },
+    options:{
+      ...barOpts(), plugins:{...defOpts.plugins, legend:{display:true,labels:{color:'#7878a0',boxWidth:10,font:{size:11}}}},
+      scales:{ x:{stacked:true,grid:{display:false},ticks:{color:COLORS.muted},border:{display:false}},
+               y:{stacked:true,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:COLORS.muted},border:{display:false}} }
+    }
+  });
+
+  // Topics bar
+  const tbCtx = document.getElementById('topicsBar').getContext('2d');
+  new Chart(tbCtx, {
+    type:'bar',
+    data:{
+      labels:sentTopics.map(t=>t.topic),
+      datasets:[{ label:'Mentions', data:sentTopics.map(t=>t.mentions),
+        backgroundColor:[COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green,COLORS.amber,COLORS.red,COLORS.blue].map(c=>c+'cc'),
+        borderRadius:6, borderSkipped:false }]
+    },
+    options:{ ...barOpts(true), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+fmtNum(c.raw)+' mentions'}}} }
+  });
+
+  // Topic engagement progress
+  const tepEl = document.getElementById('topicEngProg');
+  const maxEng = Math.max(...sentTopics.map(t=>t.engagement));
+  const topicColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green,COLORS.amber,COLORS.red,COLORS.blue];
+  sentTopics.forEach((t,i) => {
+    tepEl.innerHTML += `<div class="prog-item">
+      <span class="prog-label" style="font-size:12px">${t.topic}</span>
+      <div class="prog-bg"><div class="prog-fill" style="width:${(t.engagement/maxEng*100).toFixed(0)}%;background:${topicColors[i]}"></div></div>
+      <span class="prog-val" style="color:${topicColors[i]}">${t.engagement}%</span>
+    </div>`;
+  });
+
+  // ── INSIGHT CARDS ─────────────────────────────
+  const insights = [
+    { icon:'📱', color:COLORS.blue,   title:'25-34 Dominant',    desc:'The 25–34 age group makes up the largest iPhone user base in India, driven by aspirational buying.' },
+    { icon:'💰', color:COLORS.amber,  title:'High Income Leads', desc:'High-income users drive the most revenue despite medium-income having greater volume.' },
+    { icon:'😊', color:COLORS.green,  title:'82%+ Positive',     desc:'Over 82% of social mentions about iPhone are positive, with Camera Quality being the #1 topic.' },
+    { icon:'📸', color:COLORS.violet, title:'Camera = Buzz',     desc:'Camera Quality generates the most social engagement (highest average engagement rate).' },
+    { icon:'🏙️', color:COLORS.pink,   title:'West Region Tops', desc:'Maharashtra (West) consistently leads all regions in both units sold and revenue generated.' },
+    { icon:'📈', color:COLORS.cyan,   title:'Instagram Rules',   desc:'Instagram generates the highest iPhone-related mentions, outperforming Twitter and Facebook.' }
+  ];
+
+  const icEl = document.getElementById('insightCards');
+  insights.forEach(ins => {
+    icEl.innerHTML += `<div class="chart-card fade" style="border-top:3px solid ${ins.color}">
+      <div style="font-size:28px;margin-bottom:12px">${ins.icon}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;color:${ins.color}">${ins.title}</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">${ins.desc}</div>
+    </div>`;
+  });
+  document.querySelectorAll('.fade').forEach(el=>observer.observe(el));
+}
+
+loadReport();
+</script>
+{% endblock %}

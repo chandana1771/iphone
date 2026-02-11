@@ -1,0 +1,491 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — iRevolution{% endblock %}
+
+{% block content %}
+<div style="padding:80px 40px 20px;max-width:1260px;margin:0 auto;">
+  <div class="fade">
+    <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet);margin-bottom:10px">📊 Live Analytics</div>
+    <h1 style="font-family:'Syne',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:8px">Interactive Dashboard</h1>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:0">Click any chart, filter by region or year — every detail responds instantly.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SECTION 1: SALES ANALYSIS
+══════════════════════════════════ -->
+<div class="section fade">
+  <div class="section-head">
+    <div>
+      <div class="section-title">📦 India Sales Analysis</div>
+      <div class="section-sub">Region & state-level iPhone sales data from your dataset</div>
+    </div>
+    <div class="section-controls">
+      <div class="filter-group" id="yearFilter">
+        <button class="pill active" data-year="">All Years</button>
+        <button class="pill" data-year="2019">2019</button>
+        <button class="pill" data-year="2020">2020</button>
+        <button class="pill" data-year="2021">2021</button>
+        <button class="pill" data-year="2022">2022</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top metric row -->
+  <div class="metric-row fade" style="margin-bottom:20px" id="salesMetrics">
+    <div class="metric-box"><div class="metric-num" style="color:var(--blue)" id="sm-units">—</div><div class="metric-lbl">Total Units Sold</div></div>
+    <div class="metric-box"><div class="metric-num" style="color:var(--pink)" id="sm-rev">—</div><div class="metric-lbl">Total Revenue</div></div>
+    <div class="metric-box"><div class="metric-num" style="color:var(--cyan)" id="sm-share">—</div><div class="metric-lbl">Avg Market Share</div></div>
+    <div class="metric-box"><div class="metric-num" style="color:var(--green)" id="sm-states">—</div><div class="metric-lbl">States Covered</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="chart-card fade">
+      <div class="chart-label">Units Sold by Region</div>
+      <div class="chart-sub">Total iPhone units · click a bar for details</div>
+      <div style="height:220px"><canvas id="regionBar"></canvas></div>
+    </div>
+    <div class="chart-card fade">
+      <div class="chart-label">Revenue by Region (₹)</div>
+      <div class="chart-sub">In billions · grouped by region</div>
+      <div style="height:220px"><canvas id="regionRevBar"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:20px">
+    <div class="chart-card fade">
+      <div class="chart-label">Market Share by Region (%)</div>
+      <div class="chart-sub">Average iPhone market share per region</div>
+      <div style="height:200px"><canvas id="marketShareRadar"></canvas></div>
+    </div>
+    <div class="chart-card fade">
+      <div class="chart-label">Sales by Model</div>
+      <div class="chart-sub">Units sold per iPhone model in India</div>
+      <div style="height:200px"><canvas id="modelBar"></canvas></div>
+    </div>
+  </div>
+
+  <!-- State-level table -->
+  <div class="chart-card fade" style="margin-top:20px">
+    <div class="chart-label">State-level Sales Detail</div>
+    <div class="search-bar" style="margin-top:12px">
+      <input class="search-input" id="stateSearch" type="text" placeholder="Search state, model, region…">
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr>
+          <th>State</th><th>Region</th><th>Model</th><th>Year</th>
+          <th>Quarter</th><th>Units Sold</th><th>Revenue</th><th>Mkt Share</th>
+        </tr></thead>
+        <tbody id="salesTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SECTION 2: GLOBAL REVENUE
+══════════════════════════════════ -->
+<div class="section fade" style="margin-top:40px">
+  <div class="section-head">
+    <div>
+      <div class="section-title">🌎 Global Revenue Trends</div>
+      <div class="section-sub">Apple worldwide revenue 2006–2022 broken down by region</div>
+    </div>
+  </div>
+
+  <div class="grid-3-1">
+    <div class="chart-card fade">
+      <div class="chart-label">Stacked Regional Revenue Over Time</div>
+      <div class="chart-sub">Americas · Europe · China · Japan · Asia Pacific ($bn)</div>
+      <div style="height:280px"><canvas id="stackedRegion"></canvas></div>
+    </div>
+    <div class="chart-card fade">
+      <div class="chart-label">2022 Regional Split</div>
+      <div class="chart-sub">Revenue share by geography</div>
+      <div style="height:200px;display:flex;align-items:center;justify-content:center"><canvas id="regionPie2022"></canvas></div>
+      <div id="regionPieLegend2022" style="margin-top:14px;display:flex;flex-direction:column;gap:8px;font-size:12px;"></div>
+    </div>
+  </div>
+
+  <div class="chart-card fade" style="margin-top:20px">
+    <div class="chart-label">Year-over-Year Revenue Growth (%)</div>
+    <div class="chart-sub">Annual percentage change in total revenue</div>
+    <div style="height:200px"><canvas id="yoyGrowth"></canvas></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SECTION 3: MARKET PENETRATION
+══════════════════════════════════ -->
+<div class="section fade" style="margin-top:40px">
+  <div class="section-head">
+    <div>
+      <div class="section-title">📈 Market Penetration & Adoption</div>
+      <div class="section-sub">Global iPhone units, revenue, and active user growth 2008–2022</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="chart-card fade">
+      <div class="chart-label">Units Sold vs Revenue Generated</div>
+      <div class="chart-sub">Dual-axis · units (mm) left, revenue ($bn) right</div>
+      <div style="height:240px"><canvas id="unitRevDual"></canvas></div>
+    </div>
+    <div class="chart-card fade">
+      <div class="chart-label">Active User Base Growth</div>
+      <div class="chart-sub">Cumulative active iPhone users worldwide (million)</div>
+      <div style="height:240px"><canvas id="activeUsersArea"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-card fade" style="margin-top:20px">
+    <div class="chart-label">India Market Share by Brand — Quarterly (2019–2022)</div>
+    <div class="chart-sub">Share of smartphone market by brand per quarter</div>
+    <div class="filter-group" id="qBrandFilter" style="margin-bottom:16px">
+      <button class="pill active" data-brand="">All Brands</button>
+      <button class="pill" data-brand="Samsung">Samsung</button>
+      <button class="pill" data-brand="Xiaomi">Xiaomi</button>
+      <button class="pill" data-brand="vivo">vivo</button>
+      <button class="pill" data-brand="OPPO">OPPO</button>
+      <button class="pill" data-brand="realme">realme</button>
+    </div>
+    <div style="height:240px"><canvas id="quarterlyLine"></canvas></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+let salesData = [], allSales = [];
+let quarterlyData = [];
+let selectedYear = '';
+
+// ── YEAR FILTER ─────────────────────────────────
+document.getElementById('yearFilter').addEventListener('click', e => {
+  if (!e.target.classList.contains('pill')) return;
+  document.querySelectorAll('#yearFilter .pill').forEach(p=>p.classList.remove('active'));
+  e.target.classList.add('active');
+  selectedYear = e.target.dataset.year;
+  filterSales();
+});
+
+// ── SEARCH ──────────────────────────────────────
+document.getElementById('stateSearch').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const filtered = allSales.filter(r =>
+    Object.values(r).some(v => String(v).toLowerCase().includes(q))
+  );
+  renderSalesTable(filtered.slice(0,30));
+});
+
+async function filterSales() {
+  let url = '/api/sales';
+  if (selectedYear) url += '?year=' + selectedYear;
+  salesData = await api(url);
+  updateSalesMetrics(salesData);
+  updateSalesCharts(salesData);
+  renderSalesTable(salesData.slice(0,30));
+}
+
+function updateSalesMetrics(data) {
+  const units = data.reduce((s,r)=>s+r.Units_Sold,0);
+  const rev   = data.reduce((s,r)=>s+r.Revenue,0);
+  const share = data.reduce((s,r)=>s+r.Market_Share,0) / (data.length||1);
+  const states = new Set(data.map(r=>r.State)).size;
+  document.getElementById('sm-units').textContent = fmtNum(units);
+  document.getElementById('sm-rev').textContent   = '₹' + (rev/1e9).toFixed(1)+'B';
+  document.getElementById('sm-share').textContent = share.toFixed(1)+'%';
+  document.getElementById('sm-states').textContent = states;
+}
+
+// Chart instances
+let rBarChart, rRevChart, mktShareChart, modelChart;
+
+function updateSalesCharts(data) {
+  // Region totals
+  const regionMap = {};
+  data.forEach(r => {
+    if (!regionMap[r.Region]) regionMap[r.Region] = {units:0,rev:0,share:0,cnt:0};
+    regionMap[r.Region].units += r.Units_Sold;
+    regionMap[r.Region].rev   += r.Revenue;
+    regionMap[r.Region].share += r.Market_Share;
+    regionMap[r.Region].cnt++;
+  });
+  const regions = Object.keys(regionMap);
+  const rColors = [COLORS.blue, COLORS.violet, COLORS.pink, COLORS.green];
+
+  // Region bar
+  if (rBarChart) rBarChart.destroy();
+  const rbCtx = document.getElementById('regionBar').getContext('2d');
+  rBarChart = new Chart(rbCtx, {
+    type:'bar',
+    data:{
+      labels:regions,
+      datasets:[{ label:'Units Sold',
+        data:regions.map(r=>regionMap[r].units),
+        backgroundColor:rColors.map(c=>c+'cc'), borderRadius:8, borderSkipped:false }]
+    },
+    options:{ ...barOpts(), plugins:{ ...defOpts.plugins, tooltip:{
+      ...defOpts.plugins.tooltip, callbacks:{ label:c=>' '+fmtNum(c.raw)+' units' }
+    }}}
+  });
+
+  // Region revenue bar
+  if (rRevChart) rRevChart.destroy();
+  const rrCtx = document.getElementById('regionRevBar').getContext('2d');
+  rRevChart = new Chart(rrCtx, {
+    type:'bar',
+    data:{
+      labels:regions,
+      datasets:[{ label:'Revenue',
+        data:regions.map(r=>(regionMap[r].rev/1e9).toFixed(2)),
+        backgroundColor:rColors.map(c=>c+'88'), borderRadius:8, borderSkipped:false }]
+    },
+    options:{ ...barOpts(), plugins:{ ...defOpts.plugins, tooltip:{
+      ...defOpts.plugins.tooltip, callbacks:{ label:c=>' ₹'+c.raw+'B' }
+    }}}
+  });
+
+  // Market share radar
+  if (mktShareChart) mktShareChart.destroy();
+  const msCtx = document.getElementById('marketShareRadar').getContext('2d');
+  mktShareChart = new Chart(msCtx, {
+    type:'radar',
+    data:{
+      labels:regions,
+      datasets:[{
+        label:'Market Share %',
+        data:regions.map(r=>(regionMap[r].share/regionMap[r].cnt).toFixed(2)),
+        borderColor:COLORS.cyan, backgroundColor:COLORS.cyan+'22',
+        borderWidth:2, pointBackgroundColor:COLORS.cyan, pointRadius:4
+      }]
+    },
+    options:{
+      ...defOpts,
+      scales:{ r:{ grid:{color:'rgba(255,255,255,0.05)'}, ticks:{color:COLORS.muted,backdropColor:'transparent'}, pointLabels:{color:'#f0f0f8',font:{size:12}} }}
+    }
+  });
+
+  // Model bar
+  const modelMap = {};
+  data.forEach(r=>{
+    modelMap[r.Model] = (modelMap[r.Model]||0) + r.Units_Sold;
+  });
+  const models = Object.keys(modelMap).sort((a,b)=>modelMap[b]-modelMap[a]);
+  if (modelChart) modelChart.destroy();
+  const mCtx = document.getElementById('modelBar').getContext('2d');
+  modelChart = new Chart(mCtx, {
+    type:'bar',
+    data:{
+      labels:models,
+      datasets:[{ label:'Units',
+        data:models.map(m=>modelMap[m]),
+        backgroundColor:[COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green,COLORS.amber].map(c=>c+'cc'),
+        borderRadius:6, borderSkipped:false }]
+    },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+fmtNum(c.raw)+' units'}}} }
+  });
+}
+
+function renderSalesTable(rows) {
+  const tbody = document.getElementById('salesTable');
+  tbody.innerHTML = rows.map(r => {
+    const clrMap = {North:'badge-blue',South:'badge-green',West:'badge-amber',East:'badge-violet'};
+    return `<tr>
+      <td>${r.State}</td>
+      <td><span class="badge ${clrMap[r.Region]||'badge-blue'}">${r.Region}</span></td>
+      <td>${r.Model}</td>
+      <td>${r.Year}</td>
+      <td>${r.Quarter}</td>
+      <td style="font-weight:600;color:var(--blue)">${fmtNum(r.Units_Sold)}</td>
+      <td style="font-weight:600;color:var(--pink)">₹${(r.Revenue/1e9).toFixed(2)}B</td>
+      <td><span class="badge badge-green">${r.Market_Share}%</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── GLOBAL REVENUE CHARTS ────────────────────────
+async function loadGlobalRevenue() {
+  const rr = await api('/api/region-revenue');
+  const labels  = rr.map(d=>d.year);
+  const regions = ['Americas','Europe','China','Japan','Asia_Pacific'];
+  const rLabels = ['Americas','Europe','China','Japan','Asia Pacific'];
+  const rColors = [COLORS.blue,COLORS.violet,COLORS.pink,COLORS.cyan,COLORS.green];
+
+  // Stacked area chart
+  const sCtx = document.getElementById('stackedRegion').getContext('2d');
+  new Chart(sCtx, {
+    type:'line',
+    data:{
+      labels,
+      datasets: regions.map((r,i)=>({
+        label: rLabels[i],
+        data: rr.map(d=>d[r]),
+        borderColor: rColors[i], backgroundColor: rColors[i]+'55',
+        fill:true, borderWidth:2, tension:0.4, pointRadius:2
+      }))
+    },
+    options:{
+      ...lineOpts('$bn'),
+      plugins:{
+        ...defOpts.plugins,
+        legend:{ display:true, labels:{color:'#7878a0',boxWidth:10,font:{size:11}} }
+      }
+    }
+  });
+
+  // 2022 pie
+  const latest = rr[rr.length-1];
+  const vals = regions.map(r=>latest[r]);
+  const total = vals.reduce((a,b)=>a+b,0);
+  const rpCtx = document.getElementById('regionPie2022').getContext('2d');
+  new Chart(rpCtx, {
+    type:'doughnut',
+    data:{ labels:rLabels,
+      datasets:[{ data:vals, backgroundColor:rColors, borderWidth:0, hoverOffset:6 }]
+    },
+    options:donutOpts()
+  });
+
+  const rl = document.getElementById('regionPieLegend2022');
+  rLabels.forEach((l,i)=>{
+    const pct = ((vals[i]/total)*100).toFixed(1);
+    rl.innerHTML += `<div class="legend-row">
+      <div class="legend-dot" style="background:${rColors[i]}"></div>
+      <span class="legend-label">${l}</span>
+      <span class="legend-val" style="color:${rColors[i]}">${pct}%</span>
+    </div>`;
+  });
+
+  // YoY growth bar
+  const rev = await api('/api/revenue');
+  const yoy = rev.slice(1).map((d,i)=>({
+    year: d.year,
+    growth: (((d.revenue - rev[i].revenue) / rev[i].revenue)*100).toFixed(1)
+  }));
+  const yoyCtx = document.getElementById('yoyGrowth').getContext('2d');
+  new Chart(yoyCtx, {
+    type:'bar',
+    data:{
+      labels: yoy.map(d=>d.year),
+      datasets:[{
+        label:'YoY Growth %',
+        data: yoy.map(d=>d.growth),
+        backgroundColor: yoy.map(d=> parseFloat(d.growth)>=0 ? COLORS.green+'cc' : COLORS.red+'cc'),
+        borderRadius:6, borderSkipped:false
+      }]
+    },
+    options:{ ...barOpts(), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+c.raw+'%'}}} }
+  });
+}
+
+// ── PENETRATION CHARTS ───────────────────────────
+async function loadPenetration() {
+  const pen = await api('/api/penetration');
+
+  // Dual axis
+  const dCtx = document.getElementById('unitRevDual').getContext('2d');
+  new Chart(dCtx, {
+    type:'bar',
+    data:{
+      labels: pen.map(d=>d.year),
+      datasets:[
+        { type:'bar', label:'Units Sold (mm)', data:pen.map(d=>d.units),
+          backgroundColor:COLORS.blue+'88', borderRadius:6, yAxisID:'y', borderSkipped:false },
+        { type:'line', label:'Revenue Generated ($bn)', data:pen.map(d=>d.revenue),
+          borderColor:COLORS.amber, backgroundColor:'transparent',
+          borderWidth:2, pointRadius:3, tension:0.4, yAxisID:'y2' }
+      ]
+    },
+    options:{
+      ...defOpts,
+      scales:{
+        y:  { position:'left',  grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:COLORS.muted}, border:{display:false} },
+        y2: { position:'right', grid:{display:false}, ticks:{color:COLORS.amber}, border:{display:false} },
+        x:  { grid:{display:false}, ticks:{color:COLORS.muted}, border:{display:false} }
+      },
+      plugins:{ ...defOpts.plugins, legend:{display:true,labels:{color:'#7878a0',boxWidth:10,font:{size:11}}} }
+    }
+  });
+
+  // Active users area
+  const auCtx = document.getElementById('activeUsersArea').getContext('2d');
+  new Chart(auCtx, {
+    type:'line',
+    data:{
+      labels: pen.map(d=>d.year),
+      datasets:[{
+        label:'Active Users (mm)',
+        data: pen.map(d=>d.active_users),
+        borderColor:COLORS.green, backgroundColor:areaGrad(auCtx,COLORS.green),
+        borderWidth:2.5, pointRadius:3, tension:0.4, fill:true
+      }]
+    },
+    options:{ ...lineOpts('Million users'), plugins:{...defOpts.plugins, tooltip:{...defOpts.plugins.tooltip, callbacks:{label:c=>' '+c.raw+'M users'}}} }
+  });
+
+  // Quarterly brand share
+  quarterlyData = await api('/api/quarterly');
+  renderQuarterlyChart('');
+
+  document.getElementById('qBrandFilter').addEventListener('click', e => {
+    if (!e.target.classList.contains('pill')) return;
+    document.querySelectorAll('#qBrandFilter .pill').forEach(p=>p.classList.remove('active'));
+    e.target.classList.add('active');
+    renderQuarterlyChart(e.target.dataset.brand);
+  });
+}
+
+let qChart;
+function renderQuarterlyChart(brandFilter) {
+  const brands = brandFilter
+    ? [brandFilter]
+    : [...new Set(quarterlyData.map(d=>d.brand))];
+  const years = [...new Set(quarterlyData.map(d=>d.year))].sort();
+
+  const brandColors = {Samsung:COLORS.blue,vivo:COLORS.violet,Xiaomi:COLORS.pink,OPPO:COLORS.cyan,realme:COLORS.green,Others:COLORS.muted};
+  const allLabels = [];
+  years.forEach(y=>['Q1','Q2','Q3','Q4'].forEach(q=>allLabels.push(y+' '+q)));
+
+  const datasets = brands.map(b => {
+    const pts = [];
+    years.forEach(y => {
+      const row = quarterlyData.find(d=>d.year===y && d.brand===b);
+      ['Q1','Q2','Q3','Q4'].forEach(q => pts.push(row ? row[q] : null));
+    });
+    return {
+      label:b, data:pts,
+      borderColor:brandColors[b]||COLORS.blue, backgroundColor:'transparent',
+      borderWidth:2, pointRadius:2.5, tension:0.4,
+      spanGaps:true
+    };
+  });
+
+  if (qChart) qChart.destroy();
+  const qCtx = document.getElementById('quarterlyLine').getContext('2d');
+  qChart = new Chart(qCtx, {
+    type:'line',
+    data:{ labels:allLabels, datasets },
+    options:{
+      ...lineOpts('Market Share %'),
+      plugins:{
+        ...defOpts.plugins,
+        legend:{display:true,labels:{color:'#7878a0',boxWidth:10,font:{size:11}}},
+        tooltip:{...defOpts.plugins.tooltip,callbacks:{label:c=>' '+c.dataset.label+': '+c.raw+'%'}}
+      }
+    }
+  });
+}
+
+// ── INIT ─────────────────────────────────────────
+async function init() {
+  allSales = await api('/api/sales');
+  filterSales();
+  loadGlobalRevenue();
+  loadPenetration();
+}
+
+init();
+</script>
+{% endblock %}
